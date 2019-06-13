@@ -3,7 +3,9 @@
 public class VRRaycaster : MonoBehaviour
 {
     public LineRenderer lineRenderer;
+    public float damageCooldown = 1.0f;
 
+    private float m_damageTimer = 0.0f;
     private RaycastHit m_lastHitObject;
 
     public bool ValidHit { get; private set; } = false;
@@ -39,7 +41,16 @@ public class VRRaycaster : MonoBehaviour
             ValidHit = true;
             if (m_lastHitObject.collider.tag == "Enemy")
             {
-                Destroy(m_lastHitObject.collider.gameObject);
+                m_damageTimer += Time.deltaTime;
+                if (m_damageTimer > damageCooldown)
+                {
+                    m_lastHitObject.collider.GetComponentInParent<Insect>().TakeDamage();
+                    m_damageTimer = 0.0f;
+                }
+            }
+            else
+            {
+                m_damageTimer = 0.0f;
             }
         }
         else
