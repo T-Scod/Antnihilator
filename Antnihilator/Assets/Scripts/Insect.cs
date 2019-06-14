@@ -20,7 +20,6 @@ public class Insect : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(health);
         if (pathCreator != null)
         {
             m_distanceTravelled += speed * Time.deltaTime;
