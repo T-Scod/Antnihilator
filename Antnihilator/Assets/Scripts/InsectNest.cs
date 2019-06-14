@@ -29,10 +29,24 @@ public class InsectNest : MonoBehaviour
 
     private float m_spawnTimer = 0.0f;
     private int m_insectIndex = 0;
+    private bool m_isPaused = false;
+
+    public void SetPause(bool pause)
+    {
+        m_isPaused = pause;
+        Insect[] children = GetComponentsInChildren<Insect>();
+        if (children.Length > 0)
+        {
+            for (int i = 0; i < children.Length; i++)
+            {
+                children[i].SetPause(m_isPaused);
+            }
+        }
+    }
 
     private void Update()
     {
-        if (!loop && !randomiseAllPaths && !randomiseAllTypes && m_insectIndex >= insectOrder.Length)
+        if (m_isPaused || (!loop && !randomiseAllPaths && !randomiseAllTypes && m_insectIndex >= insectOrder.Length))
         {
             return;
         }
@@ -47,6 +61,7 @@ public class InsectNest : MonoBehaviour
                 int pathIndex = Random.Range(0, pathCreators.Length);
                 Insect insect = Instantiate(insects[insectIndex], pathCreators[pathIndex].path.vertices[0], Quaternion.identity);
                 insect.pathCreator = pathCreators[pathIndex];
+                insect.transform.parent = gameObject.transform;
             }
             else if (randomiseAllTypes)
             {
@@ -59,6 +74,7 @@ public class InsectNest : MonoBehaviour
                 Insect insect = Instantiate(insects[insectIndex], pathCreators[pathIndex].path.vertices[0], Quaternion.identity);
                 insect.pathCreator = pathCreators[pathIndex];
                 m_insectIndex++;
+                insect.transform.parent = gameObject.transform;
             }
             else if (randomiseAllPaths)
             {
@@ -71,6 +87,7 @@ public class InsectNest : MonoBehaviour
                 Insect insect = Instantiate(insects[insectIndex], pathCreators[pathIndex].path.vertices[0], Quaternion.identity);
                 insect.pathCreator = pathCreators[pathIndex];
                 m_insectIndex++;
+                insect.transform.parent = gameObject.transform;
             }
             else
             {
@@ -87,6 +104,7 @@ public class InsectNest : MonoBehaviour
                 Insect insect = Instantiate(insects[insectIndex], pathCreators[pathIndex].path.vertices[0], Quaternion.identity);
                 insect.pathCreator = pathCreators[pathIndex];
                 m_insectIndex++;
+                insect.transform.parent = gameObject.transform;
             }
 
             if (loop && m_insectIndex >= insectOrder.Length)

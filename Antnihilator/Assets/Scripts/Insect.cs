@@ -9,6 +9,7 @@ public class Insect : MonoBehaviour
     public int attackAmount = 1;
 
     private float m_distanceTravelled;
+    private bool m_isPaused = false;
 
     private void Start()
     {
@@ -20,7 +21,7 @@ public class Insect : MonoBehaviour
 
     private void Update()
     {
-        if (pathCreator != null)
+        if (pathCreator != null && !m_isPaused)
         {
             m_distanceTravelled += speed * Time.deltaTime;
             float t = m_distanceTravelled / pathCreator.path.length;
@@ -43,6 +44,11 @@ public class Insect : MonoBehaviour
     private void OnPathChanged()
     {
         m_distanceTravelled = pathCreator.path.GetClosestDistanceAlongPath(transform.position);
+    }
+
+    public void SetPause(bool pause)
+    {
+        m_isPaused = pause;
     }
 
     public void TakeDamage()
