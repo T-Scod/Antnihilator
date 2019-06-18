@@ -2,6 +2,7 @@
 
 public class GameController : MonoBehaviour
 {
+    public GameObject menuCanvas;
     public GameObject gameOverCanvas;
     public GameObject pauseCanvas;
 
@@ -18,7 +19,14 @@ public class GameController : MonoBehaviour
     {
         if (!m_gameOver && OVRInput.GetDown(OVRInput.Button.Back))
         {
-            TogglePause();
+            if (m_inMenu)
+            {
+                Resume();
+            }
+            else
+            {
+                Pause();
+            }
         }
 
         if (!m_inMenu && !m_gameOver && int.Parse(FindObjectOfType<UnityEngine.UI.Text>().text) <= 0)
@@ -27,11 +35,19 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public void TogglePause()
+    public void Pause()
     {
-        m_inMenu = !m_inMenu;
-        pauseCanvas.SetActive(m_inMenu);
-        m_insectNest.SetPause(m_inMenu);
+        m_inMenu = true;
+        pauseCanvas.SetActive(true);
+        m_insectNest.SetPause(true);
+    }
+
+    public void Resume()
+    {
+        m_inMenu = false;
+        pauseCanvas.SetActive(false);
+        menuCanvas.SetActive(false);
+        m_insectNest.SetPause(false);
     }
 
     private void GameOver()

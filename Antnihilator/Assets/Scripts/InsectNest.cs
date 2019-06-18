@@ -29,7 +29,7 @@ public class InsectNest : MonoBehaviour
 
     private float m_spawnTimer = 0.0f;
     private int m_insectIndex = 0;
-    private bool m_isPaused = false;
+    private bool m_isPaused = true;
 
     public void SetPause(bool pause)
     {
@@ -39,7 +39,7 @@ public class InsectNest : MonoBehaviour
         {
             for (int i = 0; i < children.Length; i++)
             {
-                children[i].SetPause(m_isPaused);
+                children[i].gameObject.SetActive(!m_isPaused);
             }
         }
     }
