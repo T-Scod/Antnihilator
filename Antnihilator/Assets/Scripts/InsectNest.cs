@@ -8,6 +8,7 @@ public class InsectNest : MonoBehaviour
         ant,
         rollyPolly,
         beetle,
+        blindingAnt,
         boss,
         random
     }
