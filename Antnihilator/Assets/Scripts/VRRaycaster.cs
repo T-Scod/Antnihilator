@@ -12,30 +12,9 @@ public class VRRaycaster : MonoBehaviour
 
     private float m_damageTimer = 0.0f;
     private float m_bilndTimer;
-    private RaycastHit m_lastHitObject;
+    private RaycastHit m_hitObject;
+    private GameObject m_lastHitObject;
     private Light m_mirror;
-
-    public bool ValidHit { get; private set; } = false;
-
-    public Vector3 GetHitPosition()
-    {
-        if (ValidHit)
-        {
-            return m_lastHitObject.point;
-        }
-
-        return Vector3.zero;
-    }
-
-    public GameObject GetHitObject()
-    {
-        if (ValidHit)
-        {
-            return m_lastHitObject.collider.gameObject;
-        }
-
-        return null;
-    }
 
     private void Awake()
     {
@@ -64,40 +43,57 @@ public class VRRaycaster : MonoBehaviour
             m_bilndTimer = blindDuration;
         }
 
-        if (Physics.Raycast(transform.position, transform.forward, out m_lastHitObject))
+        if (Physics.Raycast(transform.position, transform.forward, out m_hitObject))
         {
             Vector3 offset = (transform.right * 0.5f) - (transform.up * 0.5f);
             lineRenderer.SetPosition(0, transform.position);
-            lineRenderer.SetPosition(1, m_lastHitObject.point);
+            lineRenderer.SetPosition(1, m_hitObject.point);
             lineRenderer.enabled = true;
-            ValidHit = true;
-            if (m_lastHitObject.collider.tag == "Mirror")
+            if (m_hitObject.collider.tag == "Mirror")
             {
+                StopEnemy();
                 if (m_bilndTimer == blindDuration)
                 {
-                    m_mirror = m_lastHitObject.collider.transform.parent.GetComponentInChildren<Light>();
+                    m_mirror = m_hitObject.collider.transform.parent.GetComponentInChildren<Light>();
                     m_bilndTimer = 0.0f;
                 }
             }
-            else if (m_lastHitObject.collider.tag == "Enemy")
+            else if (m_hitObject.collider.tag == "Enemy")
             {
+                if (m_lastHitObject != null && m_lastHitObject.tag == "Enemy" && m_lastHitObject != m_hitObject.collider.gameObject)
+                {
+                    m_lastHitObject.GetComponentInParent<Insect>().StopAudio();
+                }
                 m_damageTimer += Time.deltaTime;
+                m_hitObject.collider.GetComponentInParent<Insect>().StartAudio();
                 if (m_damageTimer > damageCooldown)
                 {
-                    m_lastHitObject.collider.GetComponentInParent<Insect>().TakeDamage();
+                    m_hitObject.collider.GetComponentInParent<Insect>().TakeDamage();
                     m_damageTimer = 0.0f;
                 }
             }
             else
             {
+                StopEnemy();
                 m_damageTimer = 0.0f;
             }
+
+            m_lastHitObject = m_hitObject.collider.gameObject;
         }
         else
         {
-            ValidHit = false;
+            StopEnemy();
             lineRenderer.enabled = false;
             m_damageTimer = 0.0f;
+            m_lastHitObject = null;
+        }
+    }
+
+    private void StopEnemy()
+    {
+        if (m_lastHitObject != null && m_lastHitObject.tag == "Enemy")
+        {
+            m_lastHitObject.GetComponentInParent<Insect>().StopAudio();
         }
     }
 }
