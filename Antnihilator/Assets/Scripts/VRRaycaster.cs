@@ -4,14 +4,16 @@ public class VRRaycaster : MonoBehaviour
 {
     public LineRenderer lineRenderer;
     public float damageCooldown = 1.0f;
-    public UnityEngine.UI.Image blindPanel;
     public float blindDuration = 1.5f;
     public float blindSpeed = 10.0f;
-    public float blindStopThreshold = 0.05f;
+    public float blindStopThreshold = 1.05f;
+    public float maxIntensity = 70.0f;
+    public Light directionalLight;
 
     private float m_damageTimer = 0.0f;
     private float m_bilndTimer;
     private RaycastHit m_lastHitObject;
+    private Light m_mirror;
 
     public bool ValidHit { get; private set; } = false;
 
@@ -42,11 +44,20 @@ public class VRRaycaster : MonoBehaviour
 
     private void Update()
     {
-        if (m_bilndTimer < blindDuration || blindPanel.color.a > blindStopThreshold)
+        if (m_bilndTimer < blindDuration ||
+            (directionalLight == null && m_mirror != null && m_mirror.intensity > blindStopThreshold) ||
+            (directionalLight != null && directionalLight.intensity > blindStopThreshold))
         {
             m_bilndTimer += Time.deltaTime;
 
-            blindPanel.color = new Color(1.0f, 1.0f, 1.0f, -0.5f * Mathf.Cos(m_bilndTimer * blindSpeed) + 0.5f);
+            if (directionalLight == null)
+            {
+                m_mirror.intensity = (maxIntensity * -0.5f) * Mathf.Cos(m_bilndTimer * blindSpeed * Time.deltaTime) + (maxIntensity * 0.5f);
+            }
+            else
+            {
+                directionalLight.intensity = ((maxIntensity - 1) * -0.5f) * Mathf.Cos(m_bilndTimer * blindSpeed) + ((maxIntensity + 1) * 0.5f);
+            }
         }
         else
         {
@@ -64,6 +75,7 @@ public class VRRaycaster : MonoBehaviour
             {
                 if (m_bilndTimer == blindDuration)
                 {
+                    m_mirror = m_lastHitObject.collider.transform.parent.GetComponentInChildren<Light>();
                     m_bilndTimer = 0.0f;
                 }
             }

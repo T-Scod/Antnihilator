@@ -7,10 +7,6 @@ public class UIManager : MonoBehaviour
     {
         SceneManager.LoadScene(0);
     }
-    public void Resume()
-    {
-        FindObjectOfType<GameController>().Resume();
-    }
     public void Exit()
     {
         Application.Quit();
