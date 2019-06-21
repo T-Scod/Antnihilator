@@ -54,6 +54,10 @@ MonoBehaviour:
   deathDelay: 1
   particleDecreaseSpeed: 10
   particles: {fileID: 1725855555744354250}
+  explosionParticles: {fileID: 0}
+  explosionRadius: 10
+  explosionDamage: 1
+  fireAnt: 0
 --- !u!82 &8443253957037249666
 AudioSource:
   m_ObjectHideFlags: 0
@@ -344,11 +348,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5795882672480461805}
     m_Modifications:
-    - target: {fileID: 1137763674577171421, guid: 103017ad607b78542b3fcf90e9e62648,
-        type: 3}
-      propertyPath: m_Name
-      value: Particle System
-      objectReference: {fileID: 0}
     - target: {fileID: 1137763674577171408, guid: 103017ad607b78542b3fcf90e9e62648,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -418,6 +417,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1137763674577171421, guid: 103017ad607b78542b3fcf90e9e62648,
+        type: 3}
+      propertyPath: m_Name
+      value: Particle System
       objectReference: {fileID: 0}
     - target: {fileID: 1137763674577171423, guid: 103017ad607b78542b3fcf90e9e62648,
         type: 3}
