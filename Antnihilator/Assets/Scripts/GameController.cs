@@ -10,6 +10,10 @@ public class GameController : MonoBehaviour
     /// </summary>
     [Tooltip("The game over canvas that becomes active when the game ends.")]
     public GameObject gameOverCanvas;
+    public GameObject gameWinCanvas;
+
+    [HideInInspector]
+    public bool gameWin = false;
 
     /// <summary>
     /// Reference to the insect spawnner.
@@ -41,6 +45,20 @@ public class GameController : MonoBehaviour
             // moves the game into an end state
             GameOver();
         }
+        if (gameWin && int.Parse(FindObjectOfType<UnityEngine.UI.Text>().text) > 0)
+        {
+            GameWin();
+        }
+    }
+
+    private void GameWin()
+    {
+        // sets the status of the game to over
+        gameWin = true;
+        // deactivates the insects and stops spawnning
+        m_insectNest.SetPause(true);
+        // makes the game over canvas visible
+        gameWinCanvas.SetActive(true);
     }
 
     /// <summary>

@@ -117,9 +117,13 @@ public class InsectNest : MonoBehaviour
     private void Update()
     {
         // checks if no insects should be spawnned
-        if (m_isPaused || (!loop && !randomiseAllPaths && !randomiseAllTypes && m_insectIndex >= insectOrder.Length))
+        if (m_isPaused)
         {
             return;
+        }
+        if (!loop && !randomiseAllPaths && !randomiseAllTypes && m_insectIndex >= insectOrder.Length && transform.childCount == 0)
+        {
+            FindObjectOfType<GameController>().gameWin = true;
         }
 
         // decrements the timer
@@ -137,7 +141,7 @@ public class InsectNest : MonoBehaviour
                 int insectIndex = Random.Range(0, insects.Length);
                 // gest a random path index from the collection of paths in the scene
                 int pathIndex = Random.Range(0, pathCreators.Length);
-                // creates a insect at on the path
+                // creates an insect on the path
                 Insect insect = Instantiate(insects[insectIndex], pathCreators[pathIndex].path.vertices[0], Quaternion.identity);
                 insect.pathCreator = pathCreators[pathIndex];
                 insect.transform.parent = gameObject.transform;
@@ -159,7 +163,7 @@ public class InsectNest : MonoBehaviour
                 {
                     pathIndex = Random.Range(0, pathCreators.Length);
                 }
-                // creates a insect at on the path
+                // creates an insect on the path
                 Insect insect = Instantiate(insects[insectIndex], pathCreators[pathIndex].path.vertices[0], Quaternion.identity);
                 insect.pathCreator = pathCreators[pathIndex];
                 insect.transform.parent = gameObject.transform;
@@ -181,7 +185,7 @@ public class InsectNest : MonoBehaviour
                     insectIndex = Random.Range(0, insects.Length);
                 }
                 int pathIndex = Random.Range(0, pathCreators.Length);
-                // creates a insect at on the path
+                // creates an insect on the path
                 Insect insect = Instantiate(insects[insectIndex], pathCreators[pathIndex].path.vertices[0], Quaternion.identity);
                 insect.pathCreator = pathCreators[pathIndex];
                 insect.transform.parent = gameObject.transform;
@@ -205,11 +209,11 @@ public class InsectNest : MonoBehaviour
                 // gets the path index from the insect order
                 int pathIndex = insectOrder[m_insectIndex].pathIndex;
                 // if the index provided is out of range then randomise the path
-                if (pathIndex == pathCreators.Length)
+                if (pathIndex >= pathCreators.Length || pathIndex < 0)
                 {
                     pathIndex = Random.Range(0, pathCreators.Length);
                 }
-                // creates a insect at on the path
+                // creates an insect on the path
                 Insect insect = Instantiate(insects[insectIndex], pathCreators[pathIndex].path.vertices[0], Quaternion.identity);
                 insect.pathCreator = pathCreators[pathIndex];
                 insect.transform.parent = gameObject.transform;
