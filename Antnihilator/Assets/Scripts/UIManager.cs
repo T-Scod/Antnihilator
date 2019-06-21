@@ -6,21 +6,21 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class UIManager : MonoBehaviour
 {
-    private int m_currentState = 0;
-
     /// <summary>
     /// Loads the menu scene.
     /// </summary>
     public void Menu()
     {
-        m_currentState = 0;
+        PlayerPrefs.SetInt("CurrentSceneIndex", 0);
         SceneManager.LoadScene(0);
     }
 
     public void Next()
     {
-        m_currentState++;
-        SceneManager.LoadScene(m_currentState);
+        int key = PlayerPrefs.GetInt("CurrentSceneIndex");
+        key++;
+        PlayerPrefs.SetInt("CurrentSceneIndex", key);
+        SceneManager.LoadScene(key);
     }
 
     /// <summary>
@@ -28,7 +28,7 @@ public class UIManager : MonoBehaviour
     /// </summary>
     public void Play()
     {
-        m_currentState = 1;
+        PlayerPrefs.SetInt("CurrentSceneIndex", 1);
         SceneManager.LoadScene(1);
     }
 

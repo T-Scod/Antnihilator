@@ -11,6 +11,7 @@ public class GameController : MonoBehaviour
     [Tooltip("The game over canvas that becomes active when the game ends.")]
     public GameObject gameOverCanvas;
     public GameObject gameWinCanvas;
+    public GameObject ovrGazePointer;
 
     [HideInInspector]
     public bool gameWin = false;
@@ -59,6 +60,8 @@ public class GameController : MonoBehaviour
         m_insectNest.SetPause(true);
         // makes the game over canvas visible
         gameWinCanvas.SetActive(true);
+        ovrGazePointer.SetActive(true);
+        ovrGazePointer.GetComponent<OVRGazePointer>().rayTransform.gameObject.GetComponent<LineRenderer>().enabled = false;
     }
 
     /// <summary>
@@ -72,5 +75,7 @@ public class GameController : MonoBehaviour
         m_insectNest.SetPause(true);
         // makes the game over canvas visible
         gameOverCanvas.SetActive(true);
+        ovrGazePointer.SetActive(true);
+        ovrGazePointer.GetComponent<OVRGazePointer>().rayTransform.gameObject.GetComponent<LineRenderer>().enabled = false;
     }
 }

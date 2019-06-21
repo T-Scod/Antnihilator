@@ -544,6 +544,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameOverCanvas: {fileID: 529147385}
+  gameWinCanvas: {fileID: 0}
+  ovrGazePointer: {fileID: 1301456452}
+  gameWin: 0
 --- !u!1 &491099066
 GameObject:
   m_ObjectHideFlags: 0
@@ -1078,7 +1081,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1301456453
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1097,7 +1100,7 @@ MonoBehaviour:
   dimOnHideRequest: 1
   depthScaleMultiplier: 0.03
   matchNormalOnPhysicsColliders: 0
-  rayTransform: {fileID: 0}
+  rayTransform: {fileID: 285450471}
 --- !u!4 &1301456454
 Transform:
   m_ObjectHideFlags: 0
