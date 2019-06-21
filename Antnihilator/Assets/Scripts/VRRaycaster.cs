@@ -10,6 +10,7 @@ public class VRRaycaster : MonoBehaviour
     /// </summary>
     [Tooltip("Reference to the object that has the pointer.")]
     public LineRenderer lineRenderer;
+    public Transform magnifyingGlass;
     /// <summary>
     /// The duration between the enemy taking damage.
     /// </summary>
@@ -106,7 +107,7 @@ public class VRRaycaster : MonoBehaviour
         if (Physics.Raycast(transform.position, transform.forward, out m_hitObject))
         {
             // sets the positions of the ends of the pointer to the controller and the hit object
-            lineRenderer.SetPosition(0, transform.position);
+            lineRenderer.SetPosition(0, magnifyingGlass.position);
             lineRenderer.SetPosition(1, m_hitObject.point);
             lineRenderer.enabled = true;
 
