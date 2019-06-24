@@ -13,10 +13,8 @@ public class InsectNest : MonoBehaviour
     {
         ant, // standard enemy
         rollyPolly, // tank enemy
-        beetle, // fast enemy
         blindingAnt, // ant with mirror on back
         fireAnt, // exploding ant
-        boss, // boss enemy
         random // used to spawn a random enemy type
     }
 

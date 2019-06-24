@@ -6,12 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/TysonMenu.unity
-    guid: b2488e3975c6c7643870380856fe2ebc
-  - enabled: 1
-    path: Assets/Scenes/Tyson.unity
-    guid: 9d33254975a941842ba34578633b5953
-  - enabled: 1
-    path: Assets/Scenes/Tyson 1.unity
-    guid: 4d017a1d46446bd449a42c6ef7780306
+    path: Assets/Scenes/Main.unity
+    guid: 4e807fc7e00861e499cab43eedb09738
   m_configObjects: {}

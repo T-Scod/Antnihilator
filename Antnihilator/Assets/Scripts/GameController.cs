@@ -10,9 +10,16 @@ public class GameController : MonoBehaviour
     /// </summary>
     [Tooltip("The game over canvas that becomes active when the game ends.")]
     public GameObject gameOverCanvas;
-    public GameObject gameWinCanvas;
+    //public GameObject gameWinCanvas;
+    /// <summary>
+    /// Reference to the OVR Gaze Pointer.
+    /// </summary>
+    [Tooltip("Reference to the OVR Gaze Pointer.")]
     public GameObject ovrGazePointer;
 
+    /// <summary>
+    /// Determines if the game was won.
+    /// </summary>
     [HideInInspector]
     public bool gameWin = false;
 
@@ -24,6 +31,10 @@ public class GameController : MonoBehaviour
     /// Determines if the game is over.
     /// </summary>
     private bool m_gameOver = false;
+    /// <summary>
+    /// Reference to the UI manager to gain access to player health.
+    /// </summary>
+    private UIManager m_uiManager;
 
     /// <summary>
     /// Gets the insect nest component from the scene.
@@ -31,6 +42,7 @@ public class GameController : MonoBehaviour
     private void Awake()
     {
         m_insectNest = FindObjectOfType<InsectNest>();
+        m_uiManager = FindObjectOfType<UIManager>();
     }
 
     /// <summary>
@@ -38,15 +50,13 @@ public class GameController : MonoBehaviour
     /// </summary>
     private void Update()
     {
-        // checks if the game is nopt yet over and if the player has run out of health
-        if (!m_gameOver && int.Parse(FindObjectOfType<UnityEngine.UI.Text>().text) <= 0)
+        // checks if the game is not yet over and if the player has run out of health
+        if (!m_gameOver && m_uiManager.health <= 0)
         {
-            // ensures that the health does not become negative.
-            FindObjectOfType<UnityEngine.UI.Text>().text = "0";
             // moves the game into an end state
             GameOver();
         }
-        if (gameWin && int.Parse(FindObjectOfType<UnityEngine.UI.Text>().text) > 0)
+        if (gameWin && m_uiManager.health > 0)
         {
             GameWin();
         }
@@ -59,9 +69,9 @@ public class GameController : MonoBehaviour
         // deactivates the insects and stops spawnning
         m_insectNest.SetPause(true);
         // makes the game over canvas visible
-        gameWinCanvas.SetActive(true);
+        //gameWinCanvas.SetActive(true);
         ovrGazePointer.SetActive(true);
-        ovrGazePointer.GetComponent<OVRGazePointer>().rayTransform.gameObject.GetComponent<LineRenderer>().enabled = false;
+        FindObjectOfType<LineRenderer>().enabled = false;
     }
 
     /// <summary>
@@ -76,6 +86,6 @@ public class GameController : MonoBehaviour
         // makes the game over canvas visible
         gameOverCanvas.SetActive(true);
         ovrGazePointer.SetActive(true);
-        ovrGazePointer.GetComponent<OVRGazePointer>().rayTransform.gameObject.GetComponent<LineRenderer>().enabled = false;
+        FindObjectOfType<LineRenderer>().enabled = false;
     }
 }

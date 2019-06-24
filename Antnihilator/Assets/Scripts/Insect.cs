@@ -141,9 +141,7 @@ public class Insect : MonoBehaviour
             else
             {
                 // damages the player
-                UnityEngine.UI.Text healthText = FindObjectOfType<UnityEngine.UI.Text>();
-                int playerHealth = int.Parse(healthText.text) - attackAmount;
-                healthText.text = playerHealth.ToString();
+                FindObjectOfType<UIManager>().TakeDamage(attackAmount);
                 // destroys the ememy
                 Destroy(gameObject);
             }
@@ -151,17 +149,9 @@ public class Insect : MonoBehaviour
         // checks if the ant exploded
         else if (m_dead && fireAnt)
         {
-            if (!particles.gameObject.activeSelf)
+            if (!explosionParticles.gameObject.activeSelf)
             {
-                particles.gameObject.SetActive(true);
-            }
-            if (explosionParticles.localScale.y < explosionRadius)
-            {
-                explosionParticles.localScale += new Vector3(Time.deltaTime, Time.deltaTime, Time.deltaTime) * particleDecreaseSpeed;
-                if (explosionParticles.localScale.y > explosionRadius)
-                {
-                    explosionParticles.localScale = Vector3.one * explosionRadius;
-                }
+                explosionParticles.gameObject.SetActive(true);
             }
         }
     }
